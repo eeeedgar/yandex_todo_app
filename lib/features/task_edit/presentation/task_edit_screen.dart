@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yandex_todo_app/app/presentation/custom_app_colors.dart';
+import 'package:yandex_todo_app/features/task_edit/presentation/components/deadline_select_button.dart';
+import 'package:yandex_todo_app/features/task_edit/presentation/components/delete_task_button.dart';
+import 'package:yandex_todo_app/features/task_edit/presentation/components/priority_select_button.dart';
 import 'package:yandex_todo_app/features/task_edit/presentation/components/task_edit_app_bar.dart';
+import 'package:yandex_todo_app/features/task_edit/presentation/components/task_title_text_field.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/priority_enum.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/task_entity.dart';
 import 'package:yandex_todo_app/features/tasks/domain/state/tasks_cubit.dart';
@@ -56,7 +60,7 @@ class _TaskEditScreenState extends State<TaskEditScreen> {
                   ),
                 );
           } else {
-            // TODO
+            // TODO: task creation
             // context.read<TasksCubit>().createTask(
 
             //     );
@@ -66,81 +70,45 @@ class _TaskEditScreenState extends State<TaskEditScreen> {
         },
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
+          TaskTitleTextField(
+            textEditingController: _textEditingController,
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          PrioritySelectButton(
+            prioritySelected: _prioritySelected,
+            onChanged: (Priority? newValue) {
+              setState(
+                () {
+                  _prioritySelected = newValue ?? _prioritySelected;
+                },
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Divider(
               color: Theme.of(context)
                   .extension<CustomAppColors>()!
-                  .backSecondary!,
-              boxShadow: const [
-                BoxShadow(
-                  offset: Offset(0, 2),
-                  blurRadius: 2,
-                  color: Color.fromRGBO(0, 0, 0, 0.12),
-                ),
-                BoxShadow(
-                  offset: Offset(0, 0),
-                  blurRadius: 2,
-                  color: Color.fromRGBO(0, 0, 0, 0.06),
-                ),
-              ],
-            ),
-            child: TextField(
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-              ),
-              controller: _textEditingController,
-              minLines: 4,
-              maxLines: 10,
+                  .supportSeparator,
             ),
           ),
-          ListTile(
-            title: const Text('Важность'),
-            subtitle: DropdownButton<Priority>(
-              value: _prioritySelected,
-              onChanged: (Priority? newValue) {
-                setState(
-                  () {
-                    _prioritySelected = newValue ?? _prioritySelected;
-                  },
-                );
-              },
-              items: Priority.values.map((Priority value) {
-                return DropdownMenuItem(
-                  value: value,
-                  child: Text(value.name),
-                );
-              }).toList(),
-            ),
+          DeadlineSelectButton(
+            selectedDeadline: _deadline,
+            onSelect: (value) => setState(() => _deadline = value),
+            onClear: () => setState(() => _deadline = null),
           ),
-          ListTile(
-            title: const Text('Сделать до'),
-            subtitle: Text(_deadline?.toString() ?? ''),
-            trailing: Switch(
-              value: _deadline != null,
-              onChanged: (newValue) async {
-                if (_deadline == null) {
-                  _deadline = await showDatePicker(
-                    context: context,
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                  );
-                } else {
-                  _deadline = null;
-                }
-                setState(() {});
-              },
-            ),
+          Divider(
+            color: Theme.of(context)
+                .extension<CustomAppColors>()!
+                .supportSeparator,
           ),
-          ListTile(
-            leading: const Icon(Icons.delete),
-            title: const Text('Удалить'),
-            onTap: () => _closeScreen(context),
-          )
+          DeleteTaskButton(
+              onTap:
+                  (widget.task != null) ? () => _closeScreen(context) : null),
         ],
       ),
     );

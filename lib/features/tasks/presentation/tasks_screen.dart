@@ -54,7 +54,8 @@ class _TasksScreenState extends State<TasksScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.small(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).extension<CustomAppColors>()!.blue,
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(

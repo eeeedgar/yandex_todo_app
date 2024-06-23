@@ -25,7 +25,10 @@ class TaskEditAppBar extends StatelessWidget implements PreferredSizeWidget {
           Theme.of(context).extension<CustomAppColors>()!.backPrimary,
       shadowColor: Colors.black,
       leading: IconButton(
-        icon: const Icon(Icons.close),
+        icon: Icon(
+          Icons.close,
+          color: Theme.of(context).extension<CustomAppColors>()!.labelPrimary,
+        ),
         onPressed: () {
           if (Navigator.canPop(context)) {
             Navigator.pop(context);
@@ -33,10 +36,15 @@ class TaskEditAppBar extends StatelessWidget implements PreferredSizeWidget {
         },
       ),
       actions: [
-        TextButton(
-          onPressed: onActionPressed,
-          child: const Text(
-            'Сохранить',
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: TextButton(
+            onPressed: onActionPressed,
+            child: Text(
+              'Сохранить',
+              style: TextStyle(
+                  color: Theme.of(context).extension<CustomAppColors>()!.blue),
+            ),
           ),
         ),
       ],

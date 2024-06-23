@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yandex_todo_app/app/presentation/app_fonts.dart';
 import 'package:yandex_todo_app/app/presentation/custom_app_colors.dart';
 import 'package:yandex_todo_app/features/task_edit/presentation/task_edit_screen.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/complete_status_enum.dart';
@@ -90,7 +91,7 @@ class TaskDismissableTile extends StatelessWidget {
         title: Text(
           task.title,
           style: task.completeStatus == CompleteStatus.done
-              ? TextStyle(
+              ? AppFonts.b1.copyWith(
                   decoration: TextDecoration.lineThrough,
                   color: Theme.of(context)
                       .extension<CustomAppColors>()!
@@ -99,7 +100,7 @@ class TaskDismissableTile extends StatelessWidget {
                       .extension<CustomAppColors>()!
                       .labelTertiary,
                 )
-              : TextStyle(
+              : AppFonts.b1.copyWith(
                   color: Theme.of(context)
                       .extension<CustomAppColors>()!
                       .labelPrimary,
@@ -108,11 +109,14 @@ class TaskDismissableTile extends StatelessWidget {
                       .labelPrimary,
                 ),
         ),
-        subtitle:
-            (task.deadline != null) ? Text(task.deadline.toString()) : null,
-        subtitleTextStyle: TextStyle(
-          color: Theme.of(context).extension<CustomAppColors>()!.labelTertiary,
-        ),
+        subtitle: (task.deadline != null)
+            ? Text(
+                task.deadline.toString(),
+              )
+            : null,
+        subtitleTextStyle: AppFonts.caption1.copyWith(
+            color:
+                Theme.of(context).extension<CustomAppColors>()!.labelTertiary),
       ),
     );
   }

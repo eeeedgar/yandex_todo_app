@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yandex_todo_app/app/presentation/app_fonts.dart';
 import 'package:yandex_todo_app/app/presentation/custom_app_colors.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/complete_status_enum.dart';
 import 'package:yandex_todo_app/features/tasks/domain/state/tasks_cubit.dart';
@@ -97,8 +98,7 @@ class AppBarTitle extends StatelessWidget {
       children: [
         Text(
           'Мои дела',
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
+          style: AppFonts.h1.copyWith(
             fontSize: 32 - 12 * _countShrinkCoefficientLinear(shrinkOffset),
             height: (37.5 / 32),
           ),
@@ -107,11 +107,12 @@ class AppBarTitle extends StatelessWidget {
           builder: (context, state) {
             return Text(
               'Выполнено — ${state.tasks.where((e) => e.completeStatus == CompleteStatus.done).length}',
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
+              style: AppFonts.b1.copyWith(
                 fontSize:
                     16 * (1 - _countShrinkCoefficientLinear(shrinkOffset)),
-                height: 20 / 16,
+                color: Theme.of(context)
+                    .extension<CustomAppColors>()!
+                    .labelTertiary,
               ),
             );
           },

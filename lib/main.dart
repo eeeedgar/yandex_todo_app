@@ -44,12 +44,12 @@ class MainApp extends StatelessWidget {
         ),
       ),
       child: MaterialApp(
-        theme: ThemeData.light().copyWith(
+        theme: ThemeData.light(useMaterial3: false).copyWith(
           extensions: <ThemeExtension<dynamic>>[
             CustomAppColors.light(),
           ],
         ),
-        darkTheme: ThemeData.dark().copyWith(
+        darkTheme: ThemeData.dark(useMaterial3: false).copyWith(
           extensions: <ThemeExtension<dynamic>>[
             CustomAppColors.dark(),
           ],
