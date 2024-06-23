@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yandex_todo_app/app/presentation/app_fonts.dart';
 import 'package:yandex_todo_app/app/presentation/custom_app_colors.dart';
+import 'package:yandex_todo_app/logger/app_logger.dart';
 
 class DeadlineSelectButton extends StatelessWidget {
   const DeadlineSelectButton({
@@ -42,9 +43,11 @@ class DeadlineSelectButton extends StatelessWidget {
             );
             if (newDateTime != null) {
               onSelect(newDateTime);
+              AppLogger.log('deadline selected: $newDateTime');
             }
           } else {
             onClear();
+            AppLogger.log('deadline cleared');
           }
         },
       ),

@@ -7,6 +7,7 @@ import 'package:yandex_todo_app/features/tasks/domain/entity/complete_status_enu
 import 'package:yandex_todo_app/features/tasks/domain/entity/priority_enum.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/task_entity.dart';
 import 'package:yandex_todo_app/features/tasks/domain/state/tasks_cubit.dart';
+import 'package:yandex_todo_app/logger/app_logger.dart';
 
 class TaskDismissableTile extends StatelessWidget {
   const TaskDismissableTile({
@@ -34,11 +35,13 @@ class TaskDismissableTile extends StatelessWidget {
         switch (direction) {
           case DismissDirection.startToEnd:
             {
+              AppLogger.log('${task.id}: swipe to right');
               _markAsDone(tasksCubit);
               break;
             }
           case DismissDirection.endToStart:
             {
+              AppLogger.log('${task.id}: swipe to left');
               _delete(tasksCubit);
               break;
             }
@@ -70,6 +73,7 @@ class TaskDismissableTile extends StatelessWidget {
           ),
           value: task.completeStatus == CompleteStatus.done,
           onChanged: (bool? value) {
+            AppLogger.log('${task.id}: checkbox mark as done');
             _markAsDone(tasksCubit);
           },
         ),
@@ -81,6 +85,7 @@ class TaskDismissableTile extends StatelessWidget {
                 Theme.of(context).extension<CustomAppColors>()!.labelTertiary,
           ),
           onTap: () {
+            AppLogger.log('${task.id}: info tap');
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => TaskEditScreen(task: task),

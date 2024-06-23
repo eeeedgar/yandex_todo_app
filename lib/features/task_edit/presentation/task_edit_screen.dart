@@ -9,6 +9,7 @@ import 'package:yandex_todo_app/features/task_edit/presentation/components/task_
 import 'package:yandex_todo_app/features/tasks/domain/entity/priority_enum.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/task_entity.dart';
 import 'package:yandex_todo_app/features/tasks/domain/state/tasks_cubit.dart';
+import 'package:yandex_todo_app/logger/app_logger.dart';
 
 class TaskEditScreen extends StatefulWidget {
   const TaskEditScreen({
@@ -107,8 +108,12 @@ class _TaskEditScreenState extends State<TaskEditScreen> {
                 .supportSeparator,
           ),
           DeleteTaskButton(
-              onTap:
-                  (widget.task != null) ? () => _closeScreen(context) : null),
+              onTap: (widget.task != null)
+                  ? () {
+                      AppLogger.log('task deletion');
+                      _closeScreen(context);
+                    }
+                  : null),
         ],
       ),
     );

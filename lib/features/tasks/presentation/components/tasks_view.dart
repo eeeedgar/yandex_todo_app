@@ -7,6 +7,7 @@ import 'package:yandex_todo_app/features/tasks/domain/entity/complete_status_enu
 import 'package:yandex_todo_app/features/tasks/domain/state/tasks_cubit.dart';
 import 'package:yandex_todo_app/features/tasks/presentation/components/task_dismissable_tile.dart';
 import 'package:yandex_todo_app/features/tasks/presentation/components/task_view_mode_notifier.dart';
+import 'package:yandex_todo_app/logger/app_logger.dart';
 
 class TasksView extends StatelessWidget {
   const TasksView({
@@ -58,32 +59,45 @@ class TasksView extends StatelessWidget {
                       },
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: ListTile(
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const TaskEditScreen(),
-                        ),
-                      ),
-                      title: Padding(
-                        padding: const EdgeInsets.only(left: 64),
-                        child: Text(
-                          'Новое',
-                          style: AppFonts.b1.copyWith(
-                            color: Theme.of(context)
-                                .extension<CustomAppColors>()!
-                                .labelTertiary,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  const NewTaskListTile(),
                 ]),
               ),
             );
           },
         );
       },
+    );
+  }
+}
+
+class NewTaskListTile extends StatelessWidget {
+  const NewTaskListTile({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: ListTile(
+        onTap: () {
+          AppLogger.log('task creation: section "new"');
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const TaskEditScreen(),
+            ),
+          );
+        },
+        title: Padding(
+          padding: const EdgeInsets.only(left: 64),
+          child: Text(
+            'Новое',
+            style: AppFonts.b1.copyWith(
+              color:
+                  Theme.of(context).extension<CustomAppColors>()!.labelTertiary,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

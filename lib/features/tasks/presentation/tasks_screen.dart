@@ -4,6 +4,7 @@ import 'package:yandex_todo_app/features/task_edit/presentation/task_edit_screen
 import 'package:yandex_todo_app/features/tasks/presentation/components/task_view_mode_notifier.dart';
 import 'package:yandex_todo_app/features/tasks/presentation/components/tasks_app_bar.dart';
 import 'package:yandex_todo_app/features/tasks/presentation/components/tasks_view.dart';
+import 'package:yandex_todo_app/logger/app_logger.dart';
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
@@ -58,6 +59,7 @@ class _TasksScreenState extends State<TasksScreen> {
         backgroundColor: Theme.of(context).extension<CustomAppColors>()!.blue,
         child: const Icon(Icons.add),
         onPressed: () {
+          AppLogger.log('task creation: fab');
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const TaskEditScreen(),
