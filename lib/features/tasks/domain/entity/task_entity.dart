@@ -6,7 +6,6 @@ class TaskEntity extends Equatable {
   const TaskEntity({
     required this.id,
     required this.title,
-    required this.description,
     required this.priority,
     required this.completeStatus,
     required this.createdAt,
@@ -16,7 +15,6 @@ class TaskEntity extends Equatable {
 
   final int id;
   final String title;
-  final String description;
   final Priority priority;
   final CompleteStatus completeStatus;
   final DateTime? deadline;
@@ -28,7 +26,6 @@ class TaskEntity extends Equatable {
         id,
         completeStatus,
         title,
-        description,
         priority,
         createdAt,
         updatedAt,
@@ -47,7 +44,6 @@ class TaskEntity extends Equatable {
     return TaskEntity(
       id: id,
       title: title ?? this.title,
-      description: description ?? this.description,
       priority: priority ?? this.priority,
       completeStatus: completeStatus ?? this.completeStatus,
       deadline: deadline ?? this.deadline,

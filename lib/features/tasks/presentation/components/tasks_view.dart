@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yandex_todo_app/app/presentation/custom_app_colors.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/complete_status_enum.dart';
 import 'package:yandex_todo_app/features/tasks/domain/state/tasks_cubit.dart';
 import 'package:yandex_todo_app/features/tasks/presentation/components/task_dismissable_tile.dart';
@@ -24,13 +25,36 @@ class TasksView extends StatelessWidget {
                 : state.tasks
                     .where((e) => e.completeStatus != CompleteStatus.deleted)
                     .toList();
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: tasks.length,
-                (_, index) {
-                  final task = tasks[index];
-                  return TaskDismissableTile(task: task);
-                },
+            return DecoratedSliver(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Theme.of(context)
+                    .extension<CustomAppColors>()!
+                    .backElevated,
+                boxShadow: const [
+                  BoxShadow(
+                    offset: Offset(0, 2),
+                    blurRadius: 2,
+                    color: Color.fromRGBO(0, 0, 0, 0.12),
+                  ),
+                  BoxShadow(
+                    offset: Offset(0, 0),
+                    blurRadius: 2,
+                    color: Color.fromRGBO(0, 0, 0, 0.06),
+                  ),
+                ],
+              ),
+              sliver: SliverPadding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    childCount: tasks.length,
+                    (_, index) {
+                      final task = tasks[index];
+                      return TaskDismissableTile(task: task);
+                    },
+                  ),
+                ),
               ),
             );
           },

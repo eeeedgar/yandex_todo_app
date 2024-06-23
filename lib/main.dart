@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yandex_todo_app/app/presentation/custom_app_colors.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/complete_status_enum.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/priority_enum.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/task_entity.dart';
@@ -22,9 +23,12 @@ class MainApp extends StatelessWidget {
       return TaskEntity(
         id: index,
         title: 'title-$index',
-        description: index.isEven ? 'description-$index' : '',
         priority: Priority.values[_rnd.nextInt(3)],
         completeStatus: CompleteStatus.values[_rnd.nextInt(3)],
+        deadline: _rnd.nextBool()
+            ? DateTime(
+                _rnd.nextInt(100) + 2000, _rnd.nextInt(20), _rnd.nextInt(12))
+            : null,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );
@@ -40,12 +44,15 @@ class MainApp extends StatelessWidget {
         ),
       ),
       child: MaterialApp(
-        theme: ThemeData(
-          useMaterial3: true,
-          appBarTheme: const AppBarTheme(),
+        theme: ThemeData.light().copyWith(
+          extensions: <ThemeExtension<dynamic>>[
+            CustomAppColors.light(),
+          ],
         ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
+        darkTheme: ThemeData.dark().copyWith(
+          extensions: <ThemeExtension<dynamic>>[
+            CustomAppColors.dark(),
+          ],
         ),
         home: const TasksScreen(),
       ),

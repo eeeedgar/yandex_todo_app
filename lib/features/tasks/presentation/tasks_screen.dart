@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:yandex_todo_app/app/presentation/custom_app_colors.dart';
+import 'package:yandex_todo_app/features/task_edit/presentation/task_edit_screen.dart';
 import 'package:yandex_todo_app/features/tasks/presentation/components/task_view_mode_notifier.dart';
 import 'package:yandex_todo_app/features/tasks/presentation/components/tasks_app_bar.dart';
 import 'package:yandex_todo_app/features/tasks/presentation/components/tasks_view.dart';
@@ -27,8 +29,11 @@ class _TasksScreenState extends State<TasksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Material(
+    return Scaffold(
+      backgroundColor:
+          Theme.of(context).extension<CustomAppColors>()!.backPrimary,
+      body: SafeArea(
+        bottom: false,
         child: TaskViewModeNotifier(
           notifier: _showDoneTasksNotifier,
           child: CustomScrollView(
@@ -40,10 +45,24 @@ class _TasksScreenState extends State<TasksScreen> {
                 ),
                 pinned: true,
               ),
-              const TasksView(),
+              const SliverPadding(
+                sliver: TasksView(),
+                padding:
+                    EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 64),
+              ),
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.small(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const TaskEditScreen(),
+            ),
+          );
+        },
       ),
     );
   }

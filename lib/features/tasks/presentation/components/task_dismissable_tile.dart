@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yandex_todo_app/app/presentation/custom_app_colors.dart';
+import 'package:yandex_todo_app/features/task_edit/presentation/task_edit_screen.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/complete_status_enum.dart';
+import 'package:yandex_todo_app/features/tasks/domain/entity/priority_enum.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/task_entity.dart';
 import 'package:yandex_todo_app/features/tasks/domain/state/tasks_cubit.dart';
 
@@ -17,11 +20,14 @@ class TaskDismissableTile extends StatelessWidget {
     final tasksCubit = context.read<TasksCubit>();
     return Dismissible(
       key: ObjectKey(task),
+      direction: task.completeStatus == CompleteStatus.active
+          ? DismissDirection.horizontal
+          : DismissDirection.none,
       background: Container(
-        color: Colors.green,
+        color: Theme.of(context).extension<CustomAppColors>()!.green,
       ),
       secondaryBackground: Container(
-        color: Colors.red,
+        color: Theme.of(context).extension<CustomAppColors>()!.red,
       ),
       onDismissed: (direction) {
         switch (direction) {
@@ -41,6 +47,26 @@ class TaskDismissableTile extends StatelessWidget {
       },
       child: ListTile(
         leading: Checkbox(
+          fillColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return Theme.of(context).extension<CustomAppColors>()!.green;
+            }
+            if (task.priority == Priority.high) {
+              return Theme.of(context)
+                  .extension<CustomAppColors>()!
+                  .red!
+                  .withOpacity(.16);
+            }
+            return null;
+          }),
+          side: BorderSide(
+            color: (task.priority == Priority.high)
+                ? Theme.of(context).extension<CustomAppColors>()!.red!
+                : Theme.of(context)
+                    .extension<CustomAppColors>()!
+                    .supportSeparator!,
+            width: 2,
+          ),
           value: task.completeStatus == CompleteStatus.done,
           onChanged: (bool? value) {
             _markAsDone(tasksCubit);
@@ -48,18 +74,45 @@ class TaskDismissableTile extends StatelessWidget {
         ),
         trailing: InkWell(
           borderRadius: BorderRadius.circular(100),
-          child: const Icon(Icons.edit),
-          onTap: () {},
+          child: Icon(
+            Icons.info_outline,
+            color:
+                Theme.of(context).extension<CustomAppColors>()!.labelTertiary,
+          ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => TaskEditScreen(task: task),
+              ),
+            );
+          },
         ),
         title: Text(
           task.title,
-          style: TextStyle(
-            decoration: task.completeStatus == CompleteStatus.done
-                ? TextDecoration.lineThrough
-                : null,
-          ),
+          style: task.completeStatus == CompleteStatus.done
+              ? TextStyle(
+                  decoration: TextDecoration.lineThrough,
+                  color: Theme.of(context)
+                      .extension<CustomAppColors>()!
+                      .labelTertiary,
+                  decorationColor: Theme.of(context)
+                      .extension<CustomAppColors>()!
+                      .labelTertiary,
+                )
+              : TextStyle(
+                  color: Theme.of(context)
+                      .extension<CustomAppColors>()!
+                      .labelPrimary,
+                  decorationColor: Theme.of(context)
+                      .extension<CustomAppColors>()!
+                      .labelPrimary,
+                ),
         ),
-        subtitle: task.description.isNotEmpty ? Text(task.description) : null,
+        subtitle:
+            (task.deadline != null) ? Text(task.deadline.toString()) : null,
+        subtitleTextStyle: TextStyle(
+          color: Theme.of(context).extension<CustomAppColors>()!.labelTertiary,
+        ),
       ),
     );
   }
