@@ -9,7 +9,6 @@ class DeleteTaskButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('onTap $onTap');
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
