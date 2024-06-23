@@ -33,7 +33,7 @@ class TasksView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 color: Theme.of(context)
                     .extension<CustomAppColors>()!
-                    .backElevated,
+                    .backSecondary,
                 boxShadow: const [
                   BoxShadow(
                     offset: Offset(0, 2),
