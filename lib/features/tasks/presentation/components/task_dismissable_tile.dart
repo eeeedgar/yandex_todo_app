@@ -88,26 +88,46 @@ class TaskDismissableTile extends StatelessWidget {
             );
           },
         ),
-        title: Text(
-          task.title,
-          style: task.completeStatus == CompleteStatus.done
-              ? AppFonts.b1.copyWith(
-                  decoration: TextDecoration.lineThrough,
-                  color: Theme.of(context)
-                      .extension<CustomAppColors>()!
-                      .labelTertiary,
-                  decorationColor: Theme.of(context)
-                      .extension<CustomAppColors>()!
-                      .labelTertiary,
-                )
-              : AppFonts.b1.copyWith(
-                  color: Theme.of(context)
-                      .extension<CustomAppColors>()!
-                      .labelPrimary,
-                  decorationColor: Theme.of(context)
-                      .extension<CustomAppColors>()!
-                      .labelPrimary,
-                ),
+        title: Row(
+          children: [
+            if (task.priority == Priority.low) ...[
+              Icon(
+                Icons.arrow_downward,
+                color: Theme.of(context)
+                    .extension<CustomAppColors>()!
+                    .labelTertiary,
+              ),
+              const SizedBox(width: 4),
+            ],
+            if (task.priority == Priority.high) ...[
+              Icon(
+                Icons.warning_amber,
+                color: Theme.of(context).extension<CustomAppColors>()!.red,
+              ),
+              const SizedBox(width: 4),
+            ],
+            Text(
+              task.title,
+              style: task.completeStatus == CompleteStatus.done
+                  ? AppFonts.b1.copyWith(
+                      decoration: TextDecoration.lineThrough,
+                      color: Theme.of(context)
+                          .extension<CustomAppColors>()!
+                          .labelTertiary,
+                      decorationColor: Theme.of(context)
+                          .extension<CustomAppColors>()!
+                          .labelTertiary,
+                    )
+                  : AppFonts.b1.copyWith(
+                      color: Theme.of(context)
+                          .extension<CustomAppColors>()!
+                          .labelPrimary,
+                      decorationColor: Theme.of(context)
+                          .extension<CustomAppColors>()!
+                          .labelPrimary,
+                    ),
+            ),
+          ],
         ),
         subtitle: (task.deadline != null)
             ? Text(
