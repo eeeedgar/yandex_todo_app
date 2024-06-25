@@ -24,7 +24,7 @@ class TaskDismissableTile extends StatelessWidget {
       key: ObjectKey(task),
       direction: task.completeStatus == CompleteStatus.active
           ? DismissDirection.horizontal
-          : DismissDirection.none,
+          : DismissDirection.endToStart,
       background: Container(
         color: Theme.of(context).extension<CustomAppColors>()!.green,
       ),
