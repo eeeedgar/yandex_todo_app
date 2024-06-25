@@ -7,6 +7,7 @@ import 'package:yandex_todo_app/features/tasks/domain/entity/complete_status_enu
 import 'package:yandex_todo_app/features/tasks/domain/entity/priority_enum.dart';
 import 'package:yandex_todo_app/features/tasks/domain/entity/task_entity.dart';
 import 'package:yandex_todo_app/features/tasks/domain/state/tasks_cubit.dart';
+import 'package:yandex_todo_app/gen/assets.gen.dart';
 import 'package:yandex_todo_app/logger/app_logger.dart';
 
 class TaskDismissableTile extends StatelessWidget {
@@ -96,18 +97,22 @@ class TaskDismissableTile extends StatelessWidget {
         title: Row(
           children: [
             if (task.priority == Priority.low) ...[
-              Icon(
-                Icons.arrow_downward,
-                color: Theme.of(context)
-                    .extension<CustomAppColors>()!
-                    .labelTertiary,
+              Assets.icons.priorityLow.svg(
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context)
+                      .extension<CustomAppColors>()!
+                      .labelTertiary!,
+                  BlendMode.srcIn,
+                ),
               ),
               const SizedBox(width: 4),
             ],
             if (task.priority == Priority.high) ...[
-              Icon(
-                Icons.warning_amber,
-                color: Theme.of(context).extension<CustomAppColors>()!.red,
+              Assets.icons.priorityHigh.svg(
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).extension<CustomAppColors>()!.red!,
+                  BlendMode.srcIn,
+                ),
               ),
               const SizedBox(width: 4),
             ],
